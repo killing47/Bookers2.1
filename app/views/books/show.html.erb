@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-xs-3">
+    <h2>User info</h2>
+    <%= attachment_image_tag current_user, :image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+    <table class="table">
+      <tbody>
+        <tr></tr>
+        <tr>
+          <th>name</th>
+          <th><%= current_user.name %></th>
+        </tr>
+        <tr>
+          <th>introduction</th>
+          <th><%= current_user.introduction %></th>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <%= link_to  "",  edit_user_path(current_user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{@book.id}"  %>
+    </div>
+
+
+    <%= render 'books/list', new_book: @new_book %>
+
+  </div>
+  <div class="col-xs-9">
+    <h2>Books detail</h2>
+    <table class="table table-hover table-inverse">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>
+            <%= link_to user_path(@book.user), class: "user_#{@book.id}" do %>
+            <%= attachment_image_tag @book.user, :image, :fill, 60, 60, format: 'jpeg', fallback: "no_image.jpg" %><br>
+           <%= @book.user.name %>
+           <% end %>
+          </th>
+           <% if @book.user == current_user %>
+           <th> <%= link_to book_path, class: "book_#{@book.id}" do %>
+           <%= @book.title %>
+           <% end %></th>
+           <th><%= @book.body %></th>
+           <th> <%= link_to  "Edit",  edit_book_path, class: "btn-sm btn-success edit_book_#{@book.id}" %></th>
+           <th><%= link_to "Destroy", book_path(@book), method: :delete, "data-confirm" => "本当に削除しますか？", class: "btn-sm btn-danger destroy_book_#{@book.id}" %></th>
+           <% else %>
+           <th> <%= link_to book_path, class: "book_#{@book.id}" do %>
+           <%= @book.title %>
+           <% end %></th>
+           <th><%= @book.body %></th>
+           <% end %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

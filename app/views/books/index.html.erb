@@ -1,0 +1,64 @@
+<div id="error_explanation" >
+<% if @new_book.errors.any? %>
+  <%= @new_book.errors.count %>件のエラーが発生しました
+    <% @new_book.errors.full_messages.each do |message| %>
+      <%= message %>
+  <% end %>
+<% end %>
+</div>
+<div class="row">
+  <div class="col-xs-3">
+    <h2>User info</h2>
+    <%= attachment_image_tag current_user, :image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+    <table class="table">
+      <tbody>
+        <tr></tr>
+        <tr>
+          <th>name</th>
+          <th><%= current_user.name %></th>
+        </tr>
+        <tr>
+          <th>introduction</th>
+          <th><%= current_user.introduction %></th>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <%= link_to  "",  edit_user_path(current_user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{current_user.id}"  %>
+    </div>
+
+     <%= render 'books/list', new_book: @new_book %>
+
+
+
+
+  </div>
+  <div class="col-xs-9">
+    <h2>Books</h2>
+    <table class="table table-hover table-inverse">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Opinion</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @books.each do |books| %>
+        <tr>
+           <td>
+            <%= link_to user_path(books.user.id), class: "user_#{books.id}" do %>
+            <%= attachment_image_tag books.user, :image, :fill, 60, 60, format: 'jpeg', fallback: "no_image.jpg" %>
+            <% end %>
+          </td>
+           <td><%= link_to book_path(books.id), class:
+           "book_#{books.id}" do %><%= books.title %><% end %>
+         </td>
+           <td><%= books.body %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%= paginate @books, class: "pagenate" %>
